@@ -17,9 +17,9 @@ const gilroy = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'QR Studio',
+  title: 'QR Space - Custom QR Code Generator',
   description:
-    'QR Studio is a sleek and intuitive QR code generator, offering customizable designs and seamless user experience for creating personalized QR codes that do not expire.',
+    'QR Space is a sleek and intuitive QR code generator, offering customizable designs and seamless user experience for creating personalized QR codes that do not expire.',
 }
 
 export default function RootLayout({
