@@ -8,8 +8,9 @@ interface DesignProps {
     color: string;
     bgColor: string;
     logo: string | null;
+    logoSize: number; // Added
     level: "L" | "M" | "Q" | "H";
-    margin: number
+    margin: number;
   };
   setDesign: (design: any) => void;
 }
@@ -38,7 +39,7 @@ export default function DesignControls({ design, setDesign }: DesignProps) {
                 type="color"
                 value={design.color}
                 onChange={(e) => setDesign({ ...design, color: e.target.value })}
-                className="absolute inset-[-5px] w-[150%] h-[150%] cursor-pointer"
+                className="absolute -inset-1.25 w-[150%] h-[150%] cursor-pointer"
               />
             </div>
             <span className="text-xs font-mono font-medium uppercase">{design.color}</span>
@@ -53,7 +54,7 @@ export default function DesignControls({ design, setDesign }: DesignProps) {
                 type="color"
                 value={design.bgColor}
                 onChange={(e) => setDesign({ ...design, bgColor: e.target.value })}
-                className="absolute inset-[-5px] w-[150%] h-[150%] cursor-pointer"
+                className="absolute -inset-1.25 w-[150%] h-[150%] cursor-pointer"
               />
             </div>
             <span className="text-xs font-mono font-medium uppercase">{design.bgColor}</span>
@@ -61,15 +62,61 @@ export default function DesignControls({ design, setDesign }: DesignProps) {
         </div>
       </div>
 
-      {/* 2. Logo Upload */}
+      {/* Logo Section */}
       <div className="space-y-2">
-        <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Branding</label>
-        <div className="group relative flex items-center justify-center w-full h-12 rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 hover:border-primary transition-colors cursor-pointer">
-          <input type="file" accept="image/*" onChange={handleLogoUpload} className="absolute inset-0 opacity-0 cursor-pointer" />
-          <span className="text-xs text-zinc-500 group-hover:text-primary font-medium">
-            {design.logo ? "✓ Logo Loaded" : "+ Add Logo"}
-          </span>
+        <div className="flex justify-between items-center">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Branding</label>
+          {design.logo && (
+            <button
+              onClick={() => setDesign({ ...design, logo: null })}
+              className="text-[9px] font-black uppercase tracking-widest text-red-500/80 hover:text-red-500 transition-colors"
+            >
+              Clear Logo
+            </button>
+          )}
         </div>
+
+        {design.logo ? (
+          <div className="space-y-4 animate-in fade-in zoom-in-95 duration-300">
+            {/* Active Preview */}
+            <div className="flex items-center gap-3 p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/50">
+              <div className="w-10 h-10 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-600 bg-white flex items-center justify-center p-1">
+                <img src={design.logo} alt="Logo" className="w-full h-full object-contain" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase tracking-tight">Image Active</span>
+                <span className="text-[9px] text-zinc-400 font-medium">Auto-centered & Excavated</span>
+              </div>
+            </div>
+
+            {/* Logo Size Slider */}
+            <div className="space-y-2 px-1">
+              <div className="flex justify-between">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Logo Size</label>
+                <span className="text-[10px] font-mono text-zinc-500">{design.logoSize}px</span>
+              </div>
+              <input
+                type="range" min="30" max="100"
+                value={design.logoSize}
+                onChange={(e) => setDesign({ ...design, logoSize: parseInt(e.target.value) })}
+                className="w-full accent-zinc-900 dark:accent-zinc-100 h-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+          </div>
+        ) : (
+          /* Empty State */
+          <div className="group relative flex items-center justify-center w-full h-12 rounded-xl border-2 border-dashed border-zinc-200 dark:border-zinc-700 hover:border-zinc-400 dark:hover:border-zinc-500 transition-colors cursor-pointer">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoUpload}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+            <span className="text-xs text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-200 font-medium transition-colors">
+              + Upload Center Logo
+            </span>
+          </div>
+        )}
       </div>
 
       {/* 3. Collapsible Advanced Section */}
@@ -109,7 +156,7 @@ export default function DesignControls({ design, setDesign }: DesignProps) {
                 type="range" min="0" max="20"
                 value={design.margin}
                 onChange={(e) => setDesign({ ...design, margin: parseInt(e.target.value) })}
-                className="w-full accent-primary h-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                className="w-full accent-zinc-900 dark:accent-zinc-100 h-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer"
               />
             </div>
           </div>

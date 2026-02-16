@@ -19,8 +19,22 @@ const gilroy = localFont({
 
 export const metadata: Metadata = {
   title: 'QR Space - Custom QR Code Generator',
+  metadataBase: new URL('https://qr.ishimwe.dev'),
+  alternates: {
+    canonical: '/',
+  },
   description:
     'QR Space is a sleek and intuitive QR code generator, offering customizable designs and seamless user experience for creating personalized QR codes that do not expire.',
+  openGraph: {
+    images: [
+      {
+        url: '/og-image.png', // Must exist in your /public folder
+        width: 1200,
+        height: 630,
+        alt: 'QR Space Interface Preview',
+      },
+    ],
+  }
 }
 
 export default function RootLayout({

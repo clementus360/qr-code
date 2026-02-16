@@ -24,7 +24,7 @@ export function EmailForm({ onChange }: { onChange: (val: string) => void }) {
                 onChange={(e) => setData({ ...data, subject: e.target.value })}
             />
             <textarea
-                className="w-full p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-transparent min-h-[80px] resize-none"
+                className="w-full p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-transparent min-h-20 resize-none"
                 placeholder="Message Body"
                 onChange={(e) => setData({ ...data, body: e.target.value })}
             />

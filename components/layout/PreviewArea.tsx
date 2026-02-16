@@ -3,7 +3,7 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useRef, useEffect, useState } from "react";
 import jsQR from "jsqr";
-import { CheckCircle2, AlertTriangle } from "lucide-react";
+import { Share2, Download, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 // Helper for contrast validation
@@ -90,6 +90,42 @@ export default function PreviewArea({ value, design }: any) {
         img.src = "data:image/svg+xml;base64," + btoa(svgData);
     };
 
+    const handleShare = async () => {
+        if (!qrRef.current) return;
+        try {
+            const svgData = new XMLSerializer().serializeToString(qrRef.current);
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const img = new Image();
+
+            img.onload = async () => {
+                canvas.width = 1200;
+                canvas.height = 1200;
+                ctx!.fillStyle = design.bgColor;
+                ctx!.fillRect(0, 0, 1200, 1200);
+                ctx?.drawImage(img, 0, 0, 1200, 1200);
+
+                const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) return;
+
+                const file = new File([blob], 'qr-code.png', { type: 'image/png' });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'My QR Code',
+                        text: 'Shared from QR Space',
+                    });
+                } else {
+                    alert("Sharing not supported on this browser. Try downloading!");
+                }
+            };
+            img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+        } catch (err) {
+            console.error("Share failed", err);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-6 items-center justify-center p-8 bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800 shadow-xl shadow-zinc-200/50 dark:shadow-none transition-all">
 
@@ -106,7 +142,7 @@ export default function PreviewArea({ value, design }: any) {
             </div>
 
             <div
-                className="p-8 rounded-[2rem] shadow-inner transition-colors duration-500 overflow-hidden"
+                className="p-8 rounded-4xl shadow-inner transition-colors duration-500 overflow-hidden"
                 style={{ backgroundColor: design.bgColor }}
             >
                 <QRCodeSVG
@@ -118,7 +154,12 @@ export default function PreviewArea({ value, design }: any) {
                     fgColor={design.color}
                     bgColor={design.bgColor}
                     className="qr-rounded"
-                    imageSettings={design.logo ? { src: design.logo, height: 60, width: 60, excavate: true } : undefined}
+                    imageSettings={design.logo ? {
+                        src: design.logo,
+                        height: design.logoSize, // Controlled by slider
+                        width: design.logoSize,  // Controlled by slider
+                        excavate: true
+                    } : undefined}
                 />
             </div>
 
@@ -139,17 +180,50 @@ export default function PreviewArea({ value, design }: any) {
             )}
 
             <div className="w-full flex flex-col items-center space-y-4">
-                <div className="flex flex-col gap-2">
-                    <Button variant="primary" size="lg" className="w-full" onClick={() => handleDownload('png')}>
+                <div className="w-full flex flex-col gap-2">
+                    {/* Primary Action: High Res PNG */}
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full flex gap-2 items-center justify-center group shadow-lg shadow-zinc-200/50 dark:shadow-none"
+                        onClick={() => handleDownload('png')}
+                    >
+                        <Download className="w-4 h-4 transition-transform group-hover:-translate-y-1" />
                         Download PNG (High Res)
                     </Button>
+
+                    {/* Secondary: Share (Now a secondary outline button) */}
+                    <Button
+                        variant="outline"
+                        className="w-full font-bold py-4 border-zinc-200 dark:border-zinc-800 flex gap-2 items-center justify-center group"
+                        onClick={handleShare}
+                    >
+                        <Share2 className="w-4 h-4 transition-transform group-hover:scale-110" />
+                        Share Directly
+                    </Button>
+
+                    {/* Tertiary: Technical Formats */}
                     <div className="w-full flex gap-2">
-                        <Button className="w-full" variant="outline" size="sm" onClick={() => handleDownload('svg')}>SVG</Button>
-                        <Button className="w-full" variant="outline" size="sm" onClick={() => handleDownload('jpg')}>JPG</Button>
+                        <Button
+                            className="w-full text-[10px] font-black uppercase tracking-widest"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDownload('svg')}
+                        >
+                            SVG
+                        </Button>
+                        <Button
+                            className="w-full text-[10px] font-black uppercase tracking-widest"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDownload('jpg')}
+                        >
+                            JPG
+                        </Button>
                     </div>
                 </div>
 
-                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-bold">
+                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-bold text-center">
                     No Expiration • Vector Format
                 </p>
             </div>

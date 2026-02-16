@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
 
     return (
         <>
-            <footer className="w-full py-12 px-6 mt-20 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+            <footer className="w-full py-12 px-6 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
 
@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
                                     v1.0
                                 </span>
                             </div>
-                            <p className="text-[11px] text-zinc-500 font-medium leading-relaxed max-w-[240px]">
+                            <p className="text-[11px] text-zinc-500 font-medium leading-relaxed max-w-60">
                                 A professional-grade, browser-based QR generator.
                                 100% static, private, and forever free.
                             </p>
