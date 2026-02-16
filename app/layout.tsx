@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { Header } from '@/components'
+import { Footer } from '@/components/layout/Footer'
 
 const gilroy = localFont({
   src: [
@@ -38,6 +39,8 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+
+        <Footer />
       </body>
     </html>
   )

@@ -5,11 +5,13 @@ import { useState } from "react";
 import PreviewArea from "@/components/layout/PreviewArea";
 import { URLForm, VCardForm, WiFiForm } from "@/components";
 import DesignControls from "@/components/layout/DesignControls";
+import { EmailForm } from "@/components/sections/EmailForm";
+import { SMSForm } from "@/components/sections/SMSForm";
 
 export default function Home() {
   const [type, setType] = useState("url");
   const [encodedValue, setEncodedValue] = useState("https://google.com");
-  const [design, setDesign] = useState({ color: "#000000", bgColor: "#ffffff", logo: null });
+  const [design, setDesign] = useState({ color: "#000000", bgColor: "#ffffff", logo: null, level: 'H' as const, margin: 4 });
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 pt-24 md:pt-16">
@@ -23,13 +25,13 @@ export default function Home() {
           </div>
 
           <nav className="flex gap-2 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-2xl">
-            {['url', 'wifi', 'vcard'].map((t) => (
+            {['url', 'wifi', 'vcard', 'email', 'sms'].map((t) => (
               <button
                 key={t}
                 onClick={() => setType(t)}
                 className={`flex-1 py-2.5 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all ${type === t
-                    ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary dark:text-primary/50'
-                    : 'opacity-40 hover:opacity-60'
+                  ? 'bg-white dark:bg-zinc-700 shadow-sm text-primary dark:text-primary/50'
+                  : 'opacity-40 hover:opacity-60'
                   }`}
               >
                 {t}
@@ -41,6 +43,8 @@ export default function Home() {
             {type === "url" && <URLForm onChange={setEncodedValue} />}
             {type === "wifi" && <WiFiForm onChange={setEncodedValue} />}
             {type === "vcard" && <VCardForm onChange={setEncodedValue} />}
+            {type === "email" && <EmailForm onChange={setEncodedValue} />}
+            {type === "sms" && <SMSForm onChange={setEncodedValue} />}
           </div>
 
           <DesignControls design={design} setDesign={setDesign} />
