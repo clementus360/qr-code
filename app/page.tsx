@@ -12,13 +12,13 @@ export default function Home() {
   const [design, setDesign] = useState({ color: "#000000", bgColor: "#ffffff", logo: null });
 
   return (
-    <div className="flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 pt-24">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950 pt-24 md:pt-16">
       <div className="grid w-full max-w-5xl grid-cols-1 md:grid-cols-2 gap-12">
 
         {/* Left: Input & Design */}
         <div className="flex flex-col gap-8 bg-white dark:bg-zinc-900 p-10 rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800 shadow-xl shadow-zinc-200/50 dark:shadow-none">
           <div className="space-y-1">
-            <h1 className="text-xl font-bold tracking-tight">QR Studio</h1>
+            <h1 className="text-xl font-bold tracking-tight">QR Space</h1>
             <p className="text-xs text-zinc-400">Select type and customize appearance</p>
           </div>
 

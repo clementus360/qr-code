@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { QrCode, Coffee } from 'lucide-react'
 import { Button } from '../ui/Button'
+import { Logo } from '../icons/Logo'
 
 export const Header: React.FC = () => {
     return (
@@ -12,9 +13,11 @@ export const Header: React.FC = () => {
 
                 {/* Logo & Brand */}
                 <Link href="/" className="flex gap-2 items-center">
-                    <QrCode className=" w-7 h-7" />
+                    <Link href="/">
+                        <Logo className="w-8 md:w-8" />
+                    </Link>
                     <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">
-                        QR Studio
+                        QR Space
                     </span>
                 </Link>
 

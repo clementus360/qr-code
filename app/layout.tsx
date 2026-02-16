@@ -30,14 +30,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${gilroy.variable} antialiased`}>
-                <Header />
+        <Header />
 
-                {/* App shell */}
-                <div className="flex pt-20">
-                  <main className="flex-1 px-4">
-                    {children}
-                  </main>
-                </div>
+        {/* App shell */}
+        <div className="flex">
+          <main className="flex-1 px-4">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
