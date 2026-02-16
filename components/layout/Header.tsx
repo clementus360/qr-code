@@ -91,8 +91,8 @@ export const Header: React.FC = () => {
                     </div>
 
                     <p className="mt-8 text-[10px] text-zinc-400 font-medium text-center leading-relaxed">
-                        Funds go directly toward hosting and future tool updates. <br />
-                        Thank you for your support!
+                        This tool is independent and free. <br />
+                        Your support helps me build more tools like this.
                     </p>
                 </div>
             </Modal>
