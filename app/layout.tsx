@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import { Header } from '@/components'
 import { Footer } from '@/components/layout/Footer'
+import { Analytics } from "@vercel/analytics/next"
 
 const gilroy = localFont({
   src: [
@@ -45,12 +46,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${gilroy.variable} antialiased`}>
+
         <Header />
 
         {/* App shell */}
         <div className="flex">
           <main className="flex-1 px-4">
             {children}
+            <Analytics />
           </main>
         </div>
 
